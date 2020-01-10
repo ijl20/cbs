@@ -1,0 +1,5 @@
+echo "Emptying database...."
+python manage.py sqlclear bookings | python manage.py dbshell
+echo "Re-syncing database with app..."
+python manage.py syncdb
+echo "DONE: Database ready (but no data yet...)"

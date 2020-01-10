@@ -1,0 +1,33 @@
+{% comment %}
+Presents a comment form for a crate
+
+Assumes incoming vars:
+
+form: class CommentForm
+crate : current crate
+
+{% endcomment %}            
+                <!-- Comment form -->
+                <form action="{% url 'comment' 1 %}" method="post">
+                    {% csrf_token %}
+                    {{ form.errors }}
+                    {{ form.non_field_errors }}
+                    <div class="fieldWrapper">
+                        {{ form.startdate.errors }}
+                        <textarea id="id_text"
+                            cols="80" 
+                            rows="1"
+                            name="text"
+                        ></textarea>
+                    </div>
+                    <div class="fieldWrapper">
+                        {{ form.index.errors }}
+                        Pin:<input id="id_pin" name="pin" type="checkbox" value="pin"/>
+                        <p style="display: inline;"><input type="submit" value="Add this comment" /></p>
+                    </div>
+                    <input type="hidden" name="crate_id" value="{{ crate.id }}" />
+                    <input type="hidden" name="action" value="ADD" />
+                    <input type="hidden" name="user_name" value="{{ cam_user }}" />
+                    
+                </form>
+                <!-- end of comment form -->

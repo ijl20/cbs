@@ -1,0 +1,38 @@
+
+{% comment %}######################################################
+#
+# Display a single rule with optional 'delete' button.
+#
+# Input context:
+# 'rule' : Rule object to display
+# 'rule_delete_action': Boolean switch to display 'Delete' button
+#
+###################################################{% endcomment %} 
+
+<div style="background-color: rgb(242,255,255);
+            padding: 5px;
+            border-radius: 12px;
+            margin: 5px;
+            ">
+  {% if rule_delete_action %}
+  <div style="float: right;">
+      <form action="{% url 'crate' rule.crate.id %}" method="post" style='display: inline; text-align: right;'>
+        {% csrf_token %}
+        <input type='hidden' name='action' value='DELETE' />
+        <input type='hidden' name='rule_id' value='{{ rule.id }}' />
+        <input type="submit" value="Delete this rule" />
+      </form>
+  </div>
+  {% endif %}
+  <div>
+  <div>
+  <p>For <a href="{% url 'crate' rule.crate.id %}">{{ rule.crate.name }}</a> and any resources within.<br/>
+  {{ rule.permission.name }} permission granted to:<br/>
+  {% if rule.instid %}<a href="{% url 'inst' rule.instid %}">Inst {{ rule.instid }}</a>{% endif %}
+  {% if rule.userid %}Userid {{ rule.userid }}{% endif %}
+  {% if rule.groupid %}<a href="http://www.lookup.cam.ac.uk/group/{{ rule.groupid }}/members">Lookup group {{ rule.groupid }}</a>{% endif %}
+  {% if rule.permission.description %}({{ rule.permission.description }}){% endif %}
+  </p>
+  </div>
+
+</div>    

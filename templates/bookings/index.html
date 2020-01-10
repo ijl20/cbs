@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% comment %}
+########################################################################
+This template allows customization of the page via:
+  home_title: title for page
+  home_top: HTML for top content section
+  home_menu: left menu
+  insts: will create 'recent resources' list as left menu
+  recent_crates: will create 'recent resources' list as left menu
+  home_bottom: HTML for bottom content section
+########################################################################
+{% endcomment %}
+
+{% block local_logo %}{% endblock %}
+
+{% block breadcrumbs %}
+<li>/ UIS Room Calendars</li>
+{% endblock %}
+
+{% block content %}
+<!-- start CONTENT block -->
+<!-- HOME_TITLE -->
+{% if site.home_title %}
+    {{ site.home_title|safe }}
+{% else %}
+    <h2>Welcome to the UIS Room Calendar System</h2>
+{% endif %}
+<!-- end HOME_TITLE -->
+
+<!-- HOME_TOP -->
+{% if site.home_top %}
+    {{ site.home_top|safe }}
+{% else %}
+    <p>This website could best be described as an experiment. The initial objective was simply to
+    provide an easy way to view and update the Google calendars for each of the meeting rooms
+    in the <a href="{% url 'crate' 'RNB' %}">Roger Needham Building</a>.
+    </p>
+    
+    <center><h2><a href="{% url 'crate' 'RNB' %}">Roger Needham Building Calendars</a></h2>
+    <center><h2><a href="{% url 'crate' 'Cockcroft' %}">Cockcroft Building Calendars</a></h2>
+    <br/><br/><br/><hr/><br/><br/><p>This menu below is for development purposes only...</p>
+{% endif %}
+<!-- END HOME TOP -->
+<!-- HOME_MENU block -->
+{% if home_menu %}
+    {{ home_menu }}
+{% else %}
+    <div class='cam_list_container'>
+        <div class='cam_list_header'>
+            <h2>Menu options</h2>
+        </div>
+        <ul class='cam_list'>
+            {% for inst in insts %}
+                <li><a href="{% url 'inst' inst.instid %}">Browse {{ inst.name }}</a></li>
+            {% endfor %}
+            <li><a href="{% url 'insts' %}">Browse all Departments/Colleges</a></li>
+            <li><a href="{% url 'crates' %}">Browse all resources</a></li>
+            <li><a href="{% url 'person' cam_userid %}">View your information</a></li>
+            <li>Find room availability for a particular date</li>
+            <li><a href="http://www.doodle.com/polls/wizard.html" target="_blank">Schedule an event via doodle.com</a>
+            <!-- <li><a href="http://carrier.csi.cam.ac.uk:83/admin/bookings/crate/add/">Add bookable resource</a></li> -->
+            <!-- <li><a href="http://carrier.csi.cam.ac.uk:83/admin/bookings/crate/">Change the settings for a particular item</a></li> -->
+            <li><a href="{% url 'stats' %}">View usage stats for this system</a></li>
+        </ul>
+    </div>
+{% endif %}
+<!-- END HOME_MENU -->
+
+{% if recent_crates or insts %}
+<!-- optional HOME_RECENTS list -->
+<div class='cam_list_container'>
+    <div class='cam_list_header'>
+        <h2>Your recent resources</h2>
+    </div>
+    <ul class='cam_list'>
+    {% for crate in recent_crates %}
+        <li><a href="{% url 'crate' crate.id %}">{{ crate.name }}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+<!-- end HOME_RECENTS list -->
+{% endif %}
+
+<!-- HOME_BOTTOM -->
+{% if site.home_bottom %}
+    {{ site.home_bottom|safe }}
+{% endif %}
+<!-- END HOME BOTTOM -->
+
+<!-- end CONTENT block -->
+{% endblock %}
+

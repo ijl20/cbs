@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}CBS Usage{% endblock %}
+
+{% block head_block %}
+  {% include "bookings/stats_header.html" %}
+{% endblock %}
+
+{% block local_logo %}{% endblock %}
+
+{% block breadcrumbs %}
+<li>/ <a href="{% url 'index' %}">UIS Room Calendars</a></li>
+<li>/ Unique Users</li>
+{% endblock %}
+
+{% block subject_title %}
+    Usage Stats
+ {% endblock %}
+ 
+{% block content %}
+
+<div id="monthly_chart" style="width: 95%; height: 600px"></div>
+<p>[<a href="javascript:view_data(uupm_data)">View raw monthly data</a>]
+</p>
+
+<div id="daily_chart" style="width: 95%; height: 600px"></div>
+<p>[<a href="javascript:view_data(uupd_data)">View raw daily data</a>]
+</p>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+            <li><a href="{% url 'crate' target.crate.id %}">{{ target.crate.name }}</a>
+            {% if target.children %}
+                <ul>
+                {% for sub_tree in target.children %}
+                    {% with target=sub_tree template_name="bookings/crate_tree.html" %}
+                        {% include template_name %}
+                    {% endwith %}
+                {% endfor %}
+                </ul>
+            {% endif %}
+            </li>

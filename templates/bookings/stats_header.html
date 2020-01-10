@@ -1,0 +1,163 @@
+{% load staticfiles %}
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../excanvas.min.js"></script><![endif]-->
+	<script src="{% static 'js/flot/jquery.flot.js' %}"></script>
+    <script src="{% static 'js/flot/jquery.flot.time.js' %}"></script>
+    <script src="{% static 'js/flot/jquery.flot.categories.js' %}"></script>
+    <script src="{% static 'js/flot/jquery.flot.stack.js' %}"></script>
+
+<script type="text/javascript">
+
+function gd(date) {
+    return new Date(date).getTime();
+}
+
+function ms2str(point) {
+    cDate = new Date(point);
+    return cDate.getFullYear()
+           + '-'
+           + ("00" + (cDate.getMonth()+1)).slice(-2)
+           + '-'
+           + ("00" + cDate.getDate()).slice(-2);
+}
+
+function view_data(series_data){
+
+    var newWindow = window.open()
+
+    var text = "";
+    
+    series_data.forEach( function (series) {
+        text += series.label + "<br/>";
+        series.data.forEach( function (point) {
+            text += "\""+ms2str(point[0])+"\","+point[1]+"<br/>";
+        });
+        text += "<br/>";
+    });
+
+    newWindow .document.open()
+    newWindow .document.write(text)
+    newWindow .document.close()
+
+}
+
+// declare arrays to store plot data
+{% if uupm %}
+var uupm_data = new Array(); // unique users per month
+{% endif %}
+{% if uupd %}
+var uupd_data = new Array(); // unique users per day
+{% endif %}
+
+$(function () {
+// TOOLTIP FUNCTIONS           
+    function showTooltip(x, y, contents) {
+        $('<div id="tooltip">' + contents + '</div>').css( {
+            position: 'absolute',
+            display: 'none',
+            top: y + 5,
+            left: x + 5,
+            border: '1px solid #fdd',
+            padding: '2px',
+            'background-color': '#fee',
+            opacity: 0.80
+        }).appendTo("body").fadeIn(200);
+    }
+
+    var previous_dataIndex = null;
+    var previous_seriesIndex = null;
+    
+    $("#daily_chart").bind("plothover", function (event, pos, item) {
+
+        if (item) { 
+            if (previous_dataIndex != item.dataIndex || previous_seriesIndex != item.seriesIndex) {
+                previous_dataIndex = item.dataIndex;
+                previous_seriesIndex = item.seriesIndex;
+                
+                $("#tooltip").remove();
+                var x = item.datapoint[0].toFixed(2),
+                    y = item.datapoint[1].toFixed(2);
+                
+                showTooltip(item.pageX, item.pageY,
+                            item.series.label + " ["
+                            + item.series.data[item.dataIndex][0] + " = "
+                            + item.series.data[item.dataIndex][1]
+                            + "]");
+            }
+        }
+        else {
+            $("#tooltip").remove();
+            previousPoint = null;            
+        }
+    });
+
+var options = { 
+    xaxis:  { mode: 'time', 
+              tickLength: 10,
+            },
+    yaxis:  { position: 'right',
+               tickDecimals: 0,
+            },
+    legend: { position: "nw",
+              sorted: 'reverse',
+            },
+    series: { bars: { show: true, fill: 1,
+                      barWidth: 24*60*60*1000, // one day
+                      align: "center" },
+              stack: "stack"
+            },
+    grid:   { hoverable: true, }
+  };
+
+{% if uupd %}
+// UNIQUE USERS PER DAY
+data_index = 0;
+
+{% for series in uupd %}
+uupd_data[data_index++] = {   label: "{{ series.label }}",
+           bars: { fillColor: "#B0E6F5" },
+           color: "#a0d6e5", //"#454d7d",
+           data: 
+[
+  {% for stat in series.stats %}
+  [ gd("{{ stat.0|date:"Y-m-d" }}"), {{ stat.1 }} ],
+  {% endfor %}
+],
+                 };
+{% endfor %}
+
+var uupd_plot = $.plot($("#daily_chart"),
+           uupd_data, 
+           options);
+
+{% endif %}
+
+{% if uupm %}
+// UNIQUE USERS PER MONTH
+
+data_index = 0;
+
+// build data array
+{% for series in uupm %}
+uupm_data[data_index++] = {   label: "{{ series.label }}",
+           bars: { fillColor: "#B0E6F5" },
+           color: "#a0d6e5", //"#454d7d",
+           data: 
+[
+  {% for stat in series.stats %}
+[gd("{{ stat.0|date:"Y-m-d" }}"), {{ stat.1 }} ],
+  {% endfor %}
+],
+                 };
+{% endfor %}
+
+options.series.bars.barWidth = 28 * 24 * 60 * 60 * 1000; // 28 days
+var plot = $.plot($("#monthly_chart"),
+           uupm_data, 
+           options);
+
+{% endif %}
+
+});
+
+
+</script>

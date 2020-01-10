@@ -1,0 +1,73 @@
+{% comment %}
+Presents a single-row booking form for a crate
+
+Assumes incoming vars:
+
+form: class ShortBookingForm
+crate : current crate
+
+{% endcomment %}            
+                <!-- Booking form -->
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ form.errors }}
+                    {{ form.non_field_errors }}
+                    {% if requires_approval %}
+                    Request
+                    {% else %}
+                    Add
+                    {% endif %} new booking:
+                    <div class="fieldWrapper shortbookingfield">
+                        {{ form.startdate.errors }}
+                        <input id="id_startdate{{ ref }}" class="booking_startdate"
+                            maxlength="12" 
+                            size="7"
+                            name="startdate"
+                            style="color: #bbb" 
+                            type="text" 
+                            value="Date:" 
+                            onfocus="if(this.value==this.defaultValue) { this.style.color='#000'; this.value='';}" 
+                        />
+                    </div>
+                    <div class="fieldWrapper shortbookingfield">
+                        {{ form.starttime.errors }}
+                        <input id="id_starttime{{ ref }}" class="booking_starttime"
+                            maxlength="12" 
+                            size="6"
+                            name="starttime"
+                            style="color: #bbb" 
+                            type="text" 
+                            value="Start:" 
+                            onfocus="if(this.value==this.defaultValue) { this.style.color='#000'; this.value='';}" 
+                        />
+                    </div>
+                    <div class="fieldWrapper shortbookingfield">
+                        {{ form.duration.errors }}
+                        <input id="id_duration{{ ref }}" class="booking_duration"
+                            maxlength="6" 
+                            size="6"
+                            name="duration"
+                            style="color: #bbb" 
+                            type="text" 
+                            value="Length:" 
+                            onfocus="if(this.value==this.defaultValue) { this.style.color='#000'; this.value='';}" 
+                        />
+                    </div>
+                    <div class="fieldWrapper shortbookingfield">
+                        {{ form.name.errors }}
+                        <label for="id_name">Title:</label>
+                        <input id="id_name" maxlength="40" size="40" name="name" type="text" />
+                    </div>
+                    <input type="hidden" name="crate_id" value="{{ crate.id }}" />
+                    <input type="hidden" name="crate_name" value="{{ crate.name }}" />
+                    {% if requires_approval %}
+                    <input type="hidden" name="calendar_id" value="{{ crate.provisional_calendar_id }}" />
+                    <input type="hidden" name="pending" value='1' />
+                    <p style="display: inline;"><input type="submit" name="crate_booking_form" value="Request Booking" /></p>
+                    {% else %}
+                    <input type="hidden" name="calendar_id" value="{{ crate.calendar_id }}" />
+                    <input type="hidden" name="pending" value='0' />
+                    <p style="display: inline;"><input type="submit" name="crate_booking_form" value="Book this" /></p>
+                    {% endif %}
+                </form>
+                <!-- end of booking form -->

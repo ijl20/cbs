@@ -1,0 +1,26 @@
+<div style="background-color: rgb(242,255,225);
+            padding: 10px;
+            border-radius: 15px;
+            margin: 5px;
+            ">
+  {% if comment.cancel %}
+  <div style="float: right;">
+      <form action="{% url 'comment' comment.id %}" method="post" style='display: inline; text-align: right;'>
+        {% csrf_token %}
+        <input type='hidden' name='action' value='CANCEL' />
+        <input type="submit" value="Delete" />
+      </form>
+  </div>
+  {% endif %}
+
+  <div>
+                    <p>{{ comment.text }}</p>
+  </div>
+  <div style="text-align: right;">
+    <i> For <a href="{% url 'crate' comment.crate.id %}">
+                    {{ comment.crate.name }}</a> by 
+            <a href="{% url 'person' comment.userid %}">
+                    {{ comment.user_name }}</a> at {{ comment.timestamp|date:"D d M Y" }}
+    </i>
+  </div>
+</div>

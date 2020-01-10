@@ -1,0 +1,245 @@
+
+@font-face {
+    font-family: vegur;
+    src: url('/bookings/static/style/fonts/Vegur-Regular.otf');
+}
+
+@font-face {
+    font-family: myriad;
+    src: url('/bookings/static/style/fonts/MYRIADPRO-REGULAR.OTF');
+}
+
+body {
+    font-family: "myriad-pro-n3","myriad-pro", myriad, vegur, verdana, arial, sans-serif;
+    font-size: 15px;
+    margin: 0px 0px 0px 0px;
+    }
+
+a:link { text-decoration: none; }
+a:visited { text-decoration:none; border-bottom:1px dotted #ddbfdc}
+a:focus { color: #0072cf; outline: thin dotted; border-bottom:0 }
+a:hover { text-decoration:underline; border-bottom:0 }
+a:hover, a:active { outline: none; }
+a:active { text-decoration:none; border-bottom:0}
+
+.center {
+    margin-left:auto;
+    margin-right:auto;
+    width: auto;
+    float: left;
+}
+
+/*****************************************/
+/* HEADER   ******************************/
+/*****************************************/
+
+.cam_header1 { 
+    /* height: 100px; */
+    background-color: rgb(16,100,112);
+    overflow: auto;
+    }
+
+.cam_header1 img {
+    margin: 2px 2px 2px 2px;
+    vertical-align: middle;
+    }
+    
+.cam_app_name {
+    font-size: 40px;
+    line-height: 48px;
+    color: #fff;
+    margin-left: 40px;
+    vertical-align: middle;
+    }
+        
+.cam_user {
+    display: block;
+    color: #fff;
+    font-size: 14px;
+    font-weight: normal;
+    font-family: verdana, arial, sans-serif;
+    float: right;
+    padding-right: 6px;
+}
+
+.cam_user a:visited { color: #fff; text-decoration:none;}
+.cam_user a:link { color: #fff; text-decoration: none; }
+.cam_user a:hover { text-decoration:underline; border-bottom:0 }
+
+/*****************************************/
+/* BREADCRUMBS ***************************/
+/*****************************************/
+
+.cam_breadcrumbs {
+ display: block;
+ float: left;
+ padding: 3px;
+ }
+ 
+.cam_breadcrumbs ul {
+ display: inline;
+ margin: 0px 0px 0px 0px;
+ padding-left: 0px;
+ border: none;
+ }
+
+.cam_breadcrumbs ul li {
+    display: inline;
+    font-size: 12px;
+    font-weight: normal;
+    font-family: verdana, arial, sans-serif;
+    color: #fff;
+}
+
+.cam_breadcrumbs ul li a {
+ color: #fff;
+ margin-left: 0;
+ padding-left: 2px;
+ border: none;
+ list-style: none;
+ display: inline;
+ }
+ 
+.cam_breadcrumbs ul li a:link {text-decoration: none}
+.cam_breadcrumbs ul li a:visited {text-decoration: none}
+.cam_breadcrumbs ul li a:active {text-decoration: none}
+.cam_breadcrumbs ul li a:hover {text-decoration: none; color: #fff;}
+
+.cam_header2 a:link {text-decoration: none}
+.cam_header2 a:visited {text-decoration: none}
+.cam_header2 a:active {text-decoration: none}
+
+/*****************************************/
+/* FORMATTED MENU (cam_list)**************/
+/*****************************************/
+
+/* a cam_list is
+<div class='cam_list_container'>
+    <div class='cam_list_header'>
+        <h2>Cam List Header</h2>
+    </div>
+    <ul class='cam_list'>
+        <li>XXX</li>
+        ...
+    </ul>
+</div>
+*/
+.cam_list_container {
+    font-family: verdana, arial, sans-serif;
+    padding: 0px 20px;
+    margin: 0px auto; 
+    width: 300px;
+    display: inline-block;
+    vertical-align:top;
+}
+
+.cam_list_header {
+    border-bottom: 1px solid #e4e4e4;
+    line-height: 25px;
+    text-rendering: optimizelegibility;
+    margin: 0 0 10px 0;
+    vertical-align: baseline;
+    font-style: normal;
+}
+.cam_list_header h2 {
+    font-weight: 300;
+    font-size: 19px;
+    color: rgb(23,23,23);
+}
+
+.cam_list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 18px;
+}
+
+.cam_list li {
+    padding: 8px 20px 10px 0;
+    border-bottom: 1px solid #e4e4e4;
+    margin-bottom: 0;
+    line-height: 18px;
+    display: list-item;
+}
+
+/*****************************************/
+/* FORMS *********************************/
+/*****************************************/
+
+.shortbookingfield { 
+    display: inline;
+}
+
+/*****************************************/
+/* Header parents ************************/
+/*****************************************/
+
+.parents { 
+    display: inline;
+    margin: 0px 0px 0px 0px;
+    padding-left: 0px;
+    border: none;
+}
+
+.parents li {
+    display: inline;
+    font-weight: normal;
+    font-family: verdana, arial, sans-serif;
+    color: #000;
+}
+
+.parents li a {
+ color: #000;
+ margin-left: 0;
+ padding-left: 2px;
+ border: none;
+ list-style: none;
+}
+ 
+.parents li a:link {text-decoration: none}
+.parents li a:visited {text-decoration: none}
+.parents li a:active {text-decoration: none}
+.parents li a:hover { color: #0072cf; text-decoration:underline; border-bottom:0 }
+
+/*****************************************/
+/* TABS  *********************************/
+/*****************************************/
+
+.cam_tabs { 
+    font-size: 15px;
+}
+
+/*****************************************/
+/* List of crates for merged calendars  **/
+/*****************************************/
+
+.calendar_list li {
+    display: inline;
+    list-style: none;
+    margin: 0 20px;
+    padding: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 18px;
+}
+
+/* .calendar_list li input { margin: 2; padding: 2;  height:23px } */
+.calendar_list li a:link {text-decoration: none; color: #ffffff;}
+.calendar_list li a:visited {text-decoration: none; color: #ffffff;}
+.calendar_list li a:active {text-decoration: none}
+.calendar_list li a:hover { color: #fff; text-decoration:underline; border-bottom:0 }
+
+/*****************************************/
+/* List of crates for merged calendars  **/
+/*****************************************/
+
+.rule_list li {
+    list-style: none;
+    margin: 0 20px;
+    padding: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 18px;
+}

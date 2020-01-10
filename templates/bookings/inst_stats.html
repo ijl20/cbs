@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}{{ target.name }} Calendars{% endblock %}
+
+{% block head_block %}
+	<script>
+        $(document).ready( function () {
+            $("#tabs").tabs( "option", "active", 4 );
+        });
+    </script>
+    
+  {% include "bookings/stats_header.html" %}
+
+{% endblock %}
+
+{% block local_logo %}{% endblock %}
+
+{% block breadcrumbs %}
+<li>/ <a href="{% url 'index' %}">UIS Room Calendars</a></li>
+<li>/ Stats: {{ target.name }}</li>
+{% endblock %}
+
+{% block subject_title %}
+    {{ target.name }}
+ {% endblock %}
+ 
+{% block content %}
+
+<!-- Tabs -->
+<div id="tabs">
+	<ul>
+		<li class="newpage"><a href="{% url 'inst' target.instid %}#crates">Resources</a></li>
+		<li class="newpage"><a href="{% url 'inst' target.instid %}#details">Details</a></li>
+		<li class="newpage"><a href="{% url 'inst' target.instid %}#comments">Comments</a></li>
+		<li class="newpage"><a href="{% url 'inst' target.instid %}#bookings">Bookings</a></li>
+		<li><a href="#stats">Usage Stats</a></li>
+	</ul>
+    <div id="stats">
+    </div>
+</div> <!-- end of Tabs -->
+
+<div id="monthly_chart" style="width: 95%; height: 600px"></div>
+<p>[<a href="javascript:view_data(uupm_data)">View raw monthly data</a>]
+</p>
+
+<div id="daily_chart" style="width: 95%; height: 600px"></div>
+<p>[<a href="javascript:view_data(uupd_data)">View raw daily data</a>]
+</p>
+
+
+{% endblock %}
+ 

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block head_block %}
+	<script>
+        $(document).ready( function () {
+            $("#tabs").tabs( "option", "active", 7 );
+        });
+    </script>
+    
+  {% include "bookings/stats_header.html" %}
+
+{% endblock %}
+
+{% block title %}{{ crate_tree.crate.name }} Calendars{% endblock %}
+
+{% block local_logo %}{% endblock %}
+
+{% block breadcrumbs %}
+<li>/ <a href="{% url 'index' %}">UIS Room Calendars</a></li>
+<li>/ Stats: {{ crate_tree.crate.name }}</li>
+{% endblock %}
+
+{% block subject_title %}
+    <ul class='parents'>
+        <li><a href="{% url 'index' %}">UIS Room Calendars</a> &gt;</li>
+    {% for crate in parents %}
+        <li><a href="{% url 'crate' crate.id %}">{{ crate.name }}</a> &gt;</li>
+    {% endfor %}
+    </ul>
+    {{ crate_tree.crate.name }}
+ {% endblock %}
+ 
+{% block content %}
+
+<!-- Tabs -->
+<div id="tabs">
+	<ul class='cam_tabs'>
+		<li class="newpage"><a href="{% url 'crate' crate_tree.crate.id %}#calendar">Calendar</a></li>
+		<li class="newpage"><a href="{% url 'crate' crate_tree.crate.id %}#details">Details</a></li>
+		<li class="newpage"><a href="{% url 'crate' crate_tree.crate.id %}#map">Map</a></li>
+		<li class="newpage"><a href="{% url 'crate' crate_tree.crate.id %}#comments">Comments</a></li>
+		<li class="newpage"><a href="{% url 'crate' crate_tree.crate.id %}#bookings">Bookings</a></li>
+		<li class="newpage"><a href="{% url 'crate' crate_tree.crate.id %}#pending">Requests</a></li>
+		<li class="newpage"><a href="{% url 'crate' crate_tree.crate.id %}#settings">Settings</a></li>
+		<li><a href="#stats">Usage</a></li>
+        {% if cbs_debug %}
+		<li style="float: right;"><a href="#cbs_debug">Dev debug info</a></li>
+        {% endif %}
+	</ul>
+    <div id="stats">
+    </div>
+    {% if cbs_debug %}
+    <!-- debug info -->
+    <div id="cbs_debug">
+        <p>Nothing fancy, some debug info for the Crate Stats tab...</p>
+        <ul>
+        {% for d in cbs_debug %}
+            <li>{{ d }}
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+    <!-- end debug -->
+    {% endif %}
+</div> <!-- end of Tabs -->
+
+<!--
+<div id="monthly_chart" style="width: 95%; height: 600px"></div>
+<p>[<a href="javascript:view_data(uupm_data)">View raw monthly data</a>]
+</p>
+-->
+<div id="daily_chart" style="width: 95%; height: 600px"></div>
+<p>[<a href="javascript:view_data(uupd_data)">View raw daily data</a>]
+</p>
+
+{% endblock %}
+ 

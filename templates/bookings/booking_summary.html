@@ -1,0 +1,44 @@
+
+
+<div style="background-color: rgb(242,255,255);
+            padding: 10px;
+            border-radius: 15px;
+            margin: 5px;
+            ">
+  {% if booking.cancel %}
+  <div style="float: right;">
+      <form action="{% url 'booking' booking.reference %}" method="post" style='display: inline; text-align: right;'>
+        {% csrf_token %}
+        <input type='hidden' name='action' value='CANCEL' />
+        {% if booking.pending %}
+        <input type="submit" value="Cancel this request" />
+        {% else %}
+        <input type="submit" value="Cancel this booking" />
+        {% endif %}
+      </form>
+  </div>
+  {% endif %}
+  {% if booking.approve %}
+  <div style="float: right;">
+      <form action="{% url 'booking' booking.reference %}" method="post" style='display: inline; text-align: right;'>
+        {% csrf_token %}
+        <input type='hidden' name='action' value='APPROVE' />
+        <input type="submit" value="Approve this request" />
+      </form>
+  </div>
+  {% endif %}
+
+  <div>
+  <h3>{{ booking.start|date:"D d M Y H:i" }}: {{ booking.name }}</h3>
+  </div>
+  <div><p>For <a href="{% url 'crate' booking.crate.id %}">
+        {{ booking.crate.name }}</a>
+       </p>
+  </div>
+  <div>
+  <div style="text-align: right;">
+    <i>Booked by 
+                <a href="{% url 'person' booking.userid %}">{{ booking.user_name }}</a>
+                at {{ booking.timestamp|date:"D d M Y H:i" }}</i>
+  </div>
+</div>    

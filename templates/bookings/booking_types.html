@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load ra_templatetags %}
+
+{% block title %}{{ booking_type_tree.booking_type.name }} Booking Types{% endblock %}
+
+{% block local_logo %}{% endblock %}
+
+{% block app_name %}Cambridge Booking System{% endblock %}
+{% block breadcrumbs %}
+<li>/ <a href="{% url 'index' %}">UIS Room Calendars</a></li>
+<li>/ Booking Types: {{ booking_type_tree.booking_type.name }}</li>
+{% endblock %}
+
+
+{% block subject_title %}
+Booking Types
+{% endblock %}
+
+{% block content %}
+<p>{{ debug }}</p>
+    <ul>
+        {% for target in booking_type_tree.children %}
+            {% include "bookings/booking_type_tree.html" %}
+        {% endfor %}
+    </ul>
+{% endblock %}

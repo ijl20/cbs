@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <title>{% block title %}UIS Room Calendars{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'style/cam_base.css' %}" />
+    <!-- JQuery and JQuery UI links -->
+	<link href="{% static 'js/jq/css/cupertino/jquery-ui-1.10.3.custom.css' %}" rel="stylesheet">
+	<script src="{% static 'js/jq/js/jquery-1.9.1.js' %}"></script>
+	<script src="{% static 'js/jq/js/jquery-ui-1.10.3.custom.js' %}"></script>
+    <!-- jquery-ui-timepicker-addon -->
+	<link href="{% static 'style/jquery-ui-timepicker-addon.css' %}" rel="stylesheet">
+    <script src="{% static 'js/jquery-ui-timepicker-addon.js' %}"></script>
+
+    <!-- jquery-ui tabs -->
+	<script>
+        $(function() {
+            $("#tabs").tabs({
+                activate: function(event, ui) {
+                    window.location.hash = ui.newPanel.attr('id');
+                }
+            });
+            $("li.newpage a").unbind('click');
+        });
+	</script>
+    <!-- additional material can be inserted in head section of page -->
+    {% block head_block %}{% endblock %}
+</head>
+
+<body>
+    <div class="cam_header1">
+        {% if site %}
+        <a href="{{ site.logo_url }}">
+            <img src="{% static site.logo_image %}" alt='{{ site.logo_alt }}'/>
+        </a>
+        {% else %}
+        <a href="http://www.cam.ac.uk">
+            <img src="{% static 'images/logo.png' %}" alt='Cambridge University logo'/>
+        </a>
+        {% endif %}
+        {% block local_logo %}
+        <a href="http://www.cam.ac.uk/cs">
+            <img src="{% static 'images/ucs_logo.png' %}" alt='University Computing Service logo'/>
+        </a>
+        {% endblock %}
+        <span class='cam_app_name'>
+        {% block app_name %}
+        {% if site.app_name %}
+            {{ site.app_name }}
+        {% else %}
+            UIS Room Calendars
+        {% endif %}
+        {% endblock %}
+        </span>
+        <div>
+            <span class="cam_breadcrumbs">
+                <ul>
+                <li><a href="http://www.cam.ac.uk">
+                        <img src="{% static 'images/icon-breadcrumb-home.png' %}" alt='Cambridge University home'/>
+                    </a>
+                </li>
+                {% if site %}
+                <li>/ {{ site }} </li>
+                {% endif %}
+                <li>/ <a href="http://www.uis.cam.ac.uk">Information Services</a></li>
+                {% block breadcrumbs %}
+                <li>/ Application</li>
+                {% endblock %}
+                </ul>
+            </span><!-- end cam_breadcrumbs -->
+            
+            <span class='cam_user'>
+                User:
+                {% if cam_userid %}
+                <a href="{% url 'person' cam_userid %}">{{ cam_user }}</a>
+                {% else %}
+                unknown
+                {% endif %}
+            </span>
+        </div>
+    </div><!-- end cam_header1 -->
+    <div id="content">
+        <div class="cam_header2">
+            <h2>{% block subject_title %}{% endblock %}</h2>
+        </div><!-- end cam_header2 -->
+        {% block content %}{% endblock %}
+    </div><!-- end content -->
+</body>
+</html>

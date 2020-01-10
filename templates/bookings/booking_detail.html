@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}CBS: Booking {{ booking.crate.short_name }} on {{ booking.start|date:"D d M Y H:i" }}{% endblock %}
+
+{% block local_logo %}{% endblock %}
+
+{% block app_name %}Cambridge Booking System{% endblock %}
+
+{% block breadcrumbs %}
+<li>/ <a href="{% url 'index' %}">Bookings</a></li>
+<li>/ Booking: {{ booking.crate.short_name }} on {{ booking.start|date:"D d M Y H:i" }}</li>
+{% endblock %}
+
+{% block subject_title %}
+    {{ booking.name }}
+ {% endblock %}
+ 
+{% block content %}
+
+{% include "bookings/booking_summary.html" %}
+
+{% endblock %}
+ 

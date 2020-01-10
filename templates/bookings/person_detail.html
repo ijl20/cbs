@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}{{ target.displayName }} Calendars{% endblock %}
+
+{% block local_logo %}{% endblock %}
+
+{% block breadcrumbs %}
+<li>/ <a href="{% url 'index' %}">UIS Room Calendars</a></li>
+<li>/ Details: {{ target.displayName }}</li>
+{% endblock %}
+
+{% block user_name %}{{ cam_user }}{% endblock %}
+
+{% block subject_title %}
+    {{ target.displayName }}
+ {% endblock %}
+ 
+{% block content %}
+
+<!-- Tabs -->
+<div id="tabs">
+	<ul>
+		<li><a href="#details">Details</a></li>
+        {% if comments %}
+		<li><a href="#comments">Comments</a></li>
+        {% endif %}
+        {% if bookings %}
+		<li><a href="#bookings">Bookings</a></li>
+        {% endif %}
+        {% if cbs_debug %}
+		<li style="float: right;"><a href="#cbs_debug">Dev debug info</a></li>
+        {% endif %}
+	</ul>
+	<div id="details">
+        <p>userid: {{ target.identifier.value }}</p>
+        <p>name: {{ target.displayName }}</p>
+        <p>insts:
+        <ul>
+        {% for inst in target.institutions %}
+            <li><a href="{% url 'inst' inst.instid %}">{{ inst.name }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% if comments %}
+    <div id="comments">
+        <ul>
+        {% for comment in comments %}
+            <li>{% include "bookings/comment_summary.html" %}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% if bookings %}
+    <div id="bookings">
+        <ul>
+        {% for booking in bookings %}
+            <li>{% include "bookings/booking_summary.html" %}
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% if cbs_debug %}
+    <!-- debug info -->
+    <div id="cbs_debug">
+        <ul>
+        {% for d in cbs_debug %}
+            <li>{{ d }}
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+    <!-- end debug -->
+    {% endif %}
+</div> <!-- end of Tabs -->
+
+
+{% endblock %}
+ 

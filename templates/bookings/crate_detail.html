@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load ra_templatetags %}
+
+{% block title %}{{ crate_tree.crate.name }} Calendars{% endblock %}
+
+{% block local_logo %}{% endblock %}
+
+{% block breadcrumbs %}
+<li>/ <a href="{% url 'index' %}">UIS Room Calendars</a></li>
+<li>/ Details: {{ crate_tree.crate.name }}</li>
+{% endblock %}
+
+{% block subject_title %}
+    <ul class='parents'>
+        <li><a href="{% url 'index' %}">UIS Room Calendars</a> &gt;</li>
+    {% for crate in parents %}
+        <li><a href="{% url 'crate' crate.id %}">{{ crate.name }}</a> &gt;</li>
+    {% endfor %}
+    </ul>
+    {{ crate_tree.crate.name }}
+ {% endblock %}
+ 
+{% block content %}
+            <script>
+              $(function() {
+                $( ".booking_startdate" ).datepicker({ 
+                    dateFormat: "d M",
+                    });
+                $( ".booking_starttime" ).timepicker({ 
+                    timeFormat: "H:mm",
+                    hourMin: 8,
+                    hourMax: 18,
+                    stepMinute: 15,
+                    minuteGrid: 15,
+                    hourGrid: 1,
+                    hour: 9,
+                    timeOnlyTitle: "Start time:"
+                    });
+                $( ".booking_duration" ).timepicker({ 
+                    timeFormat: "H:mm",
+                    hourMin: 0,
+                    hourMax: 9,
+                    stepMinute: 15,
+                    minuteGrid: 15,
+                    hourGrid: 1,
+                    hour: 1,
+                    timeOnlyTitle: "Duration period:",
+                    currentText: "",
+                    timeText: "",
+                    hourText: "Hours:",
+                    minuteText: "Mins:",
+                    defaultValue: "1:00"
+                    });
+              });
+            </script>
+
+<!-- Tabs -->
+<div id="tabs">
+	<ul class='cam_tabs'>
+        {% if crate_tree.crate.calendar_id  or crate_tree.crate.calendar_list %}
+		<li><a href="#calendar">Calendar</a></li>
+        {% endif %}
+        {% if children_tab %}
+		<li><a href="#crates">Resources</a></li>
+        {% endif %}
+        {% if details_tab %}
+		<li><a href="#details">Details</a></li>
+        {% endif %}
+        {% if map_tab %}
+		<li><a href="#map">Map</a></li>
+        {% endif %}
+        {% if comments_tab %}
+		<li><a href="#comments">Comments</a></li>
+        {% endif %}
+        {% if bookings_tab %}
+		<li><a href="#bookings">Bookings</a></li>
+        {% endif %}
+        {% if requests_tab %}
+		<li><a href="#requests">Requests</a></li>
+        {% endif %}
+        {% if settings_tab %}
+		<li><a href="#settings">Settings</a></li>
+        {% endif %}
+        {% if stats_tab %}
+		<li class='newpage'><a href="{% url 'crate_stats' crate_tree.crate.id %}">Usage</a></li>
+        {% endif %}
+        {% if cbs_debug %}
+		<li style="float: right;"><a href="#cbs_debug">Dev debug info</a></li>
+        {% endif %}
+	</ul>
+<!-- end of Tabs -->   
+ 
+        <!-- CALENDAR Tab -->
+        {% if crate_tree.crate.calendar_id %}
+            <div id="calendar">
+                <div class='calendar_link'>
+                    <a href="http://www.google.com/calendar/embed?src={{ crate_tree.crate.calendar_id }}&mode=WEEK&ctz=Europe/London&amp;color={{ crate_tree.crate.calendar_iframe_color }}" target="_blank">View this calendar directly</a>
+                </div>
+                {% if crate_tree.crate.email %}
+                <div>
+                    <a href="mailto:{{ crate_tree.crate.email }}?Subject=Info%20request%20re%20booking%20of%20{{ crate_tree.crate.id }}">
+                        Email the administrators
+                    </a>
+                </div>
+                {% endif %}
+                {% with crate_tree.crate as crate %}
+                    {% with ref='1' %}
+                        {% include "bookings/crate_booking_form.html" %}
+                    {% endwith %}
+                {% endwith %}
+
+                <!-- RENDER CALENDAR -->
+                <iframe src="https://www.google.com/calendar/embed?showTitle=0&amp;mode=WEEK&amp;height=700&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src={{ crate_tree.crate.calendar_id }}&amp;color={{ crate_tree.crate.calendar_iframe_color }}{% if crate_tree.crate.provisional_calendar_id %}&amp;src={{ crate_tree.crate.provisional_calendar_id }}{% endif %}&amp;color=%23B1365F&amp;ctz=Europe%2FLondon" 
+                    style=" border-width:0 " width="100%" height="700" frameborder="0" scrolling="no"></iframe>
+            </div> <!-- end of optional CALENDAR tab -->
+        {% elif calendar_list %}
+            <div id="calendar">
+            {% if crate_tree.crate.email %}
+                <div>
+                    <a href="mailto:{{ crate_tree.crate.email }}?Subject=Info%20request%20re%20booking%20of%20{{ crate_tree.crate.id }}">
+                        Email the administrators
+                    </a>
+                </div>
+            {% endif %}
+            <p>Click any room to view calendar/book that room, or use checkboxes and Refresh to see combined calendars here.</p>
+            <!-- RENDER MULTIPLE CALENDARS -->
+            <form method="post">
+                {% csrf_token %}
+                {{ form.errors }}
+                {{ form.non_field_errors }}
+                <ul class="calendar_list">
+                {% for child_tree in crate_tree.children %}
+                    {% if child_tree.crate.calendar_web_color %}
+                    <li style="background-color:{{ child_tree.crate.calendar_web_color }};">
+                    {% else %}
+                    <li>
+                    {% endif %}
+                        <div style="display: inline-block"><input type="checkbox" name='calendars' value="{{ child_tree.crate.id }}" {% if child_tree.crate.id in calendars %}checked{% endif %} >
+                        <a href="{% url 'crate' child_tree.crate.id %}">{{ child_tree.crate.name }}</a>
+                        </div>
+                    </li>
+                {% endfor %}
+                    <li><input type="submit" name="refresh_calendar_form" value="Refresh calendar" /></li>
+                
+                </ul>
+            </form>
+                <!-- RENDER MULTIPLE CALENDARS -->
+                <iframe  style=" border-width:0 " width="100%" height="600" frameborder="0" scrolling="no"
+                    src="https://www.google.com/calendar/embed?showTitle=0&amp;mode=WEEK&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;{% for crate in calendar_list %}src={{ crate.calendar_id }}&amp;color={{ crate.calendar_iframe_color }}&amp;{% endfor %}ctz=Europe%2FLondon"
+                >
+                </iframe>
+            </div>
+        {% endif %}
+        
+        <!-- RESOURCES Tab -->
+        {% if children_tab %}
+            <div id="crates"> <!-- optional RESOURCES tab -->
+                <ul>
+                {% for target in crate_tree.children %}
+                    {% include "bookings/crate_tree.html" %}
+                {% endfor %}
+                </ul>
+            </div> <!-- end of optional RESOURCES tab -->
+        {% endif %}
+    {% if details_tab %}
+    <!-- DETAILS tab -->
+	<div id="details">
+        {% if crate_tree.crate.image_list %}
+            {% with crate_tree.crate.image_list|split:',' as images %}
+                {% for image in images %}
+                <img src="{% static 'images/crates/'|add:image %}" style="float: right" />
+                {% endfor %}
+            {% endwith %}
+        {% endif %}
+        <div>
+            <p>{{ crate_tree.crate.description }}</p>
+            {% if crate_tree.crate.parent_crate %}
+            <p>This resource is in <a href="{% url 'crate' crate_tree.crate.parent_crate.id %}">
+                {{ crate_tree.crate.parent_crate.name }}</a><p>
+            {% else %}
+            <p>This is a top-level resource.<p>
+            {% endif %}
+            <p>Location Info: {{ crate_tree.crate.location }}</p>
+            {% if attributes %}
+                {% for attr in attributes %}
+                    <p>{{ attr }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    <!-- MAP tab -->
+    {% if map_tab %}
+    <div id="map">
+        <iframe src="{{ crate_tree.crate.map_url }}" style="width: 700px; height: 500px;"></iframe>
+    </div>
+    {% endif %}
+    <!-- COMMENTS tab -->
+    <div id="comments">
+        {% if comments %}
+        <ul>
+        {% for comment in comments %}
+            <li>{% include "bookings/comment_summary.html" %}
+            </li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <p>No comments yet for {{ crate_tree.crate.name }}.
+        </p>
+        {% endif %}
+        {% with crate_tree.crate as crate %}
+            {% include "bookings/comment_form.html" %}
+        {% endwith %}
+    </div>
+    {% if bookings_tab %}
+    <div id="bookings">
+        <p>You {{ permission.description }}.</p>
+                {% with crate_tree.crate as crate %}
+                    {% with ref='2' %}
+                        {% include "bookings/crate_booking_form.html" %}
+                    {% endwith %}
+                {% endwith %}
+        <ul>
+        {% for booking in bookings %}
+            <li>{% include "bookings/booking_summary.html" %}
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% if requests_tab %}
+    <div id="requests">
+        <p>You {{ permission.description }}.</p>
+        <ul>
+        {% for booking in pending %}
+            <li>{% include "bookings/booking_summary.html" %}
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% if settings_tab %}
+    <div id="settings"><!-- Optional SETTINGS tab -->
+        <p>Resource type: {{ crate_tree.crate.crate_type.name }}</p>
+        <p>Short name: {{ crate_tree.crate.short_name }}</p>
+        <p>Calendar reference: {{ crate_tree.crate.calendar_id }}</p>
+        <p>Calendar reference for provisional bookings: {{ crate_tree.crate.provisional_calendar_id }}</p>
+        <p>Map link: <a href="{{ crate_tree.crate.map_url }}" target="_blank">{{ crate_tree.crate.map_url }}</a></p>
+        {% if crate_tree.crate.email %}
+        <p>Booking requests will be emailed to {{ crate_tree.crate.email }}</p>
+        {% endif %}
+        <p>This resource owned by:</p>
+            <ul class='owner_list'>
+            {% for inst in owner_insts %}
+                <li><a href="{% url 'inst' inst.instid %}">{{ inst.name }}</a></li>
+            {% endfor %}
+            </ul>
+        </p>
+        {% if rules %}
+        <p>Access permissions for this resource (User will be given most permissive access applied from this list):</p>
+            <ul class='rule_list'>
+            {% for rule in rules %}
+                <li>{% include 'bookings/rule_summary.html' %}
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div><!-- End Optional SETTINGS tab -->
+    {% endif %}
+    {% if cbs_debug %}
+    <!-- debug info -->
+    <div id="cbs_debug">
+        <ul>
+        {% for d in cbs_debug %}
+            <li>{{ d }}
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+    <!-- end debug -->
+    {% endif %}
+
+</div> <!-- end of Tabs -->
+
+{% endblock %}
+ 

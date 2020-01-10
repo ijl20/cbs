@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}CBS: Comment for {{ comment.crate.short_name }} on {{ comment.timestamp|date:"D d M Y H:i" }}{% endblock %}
+
+{% block local_logo %}{% endblock %}
+
+{% block app_name %}Cambridge Booking System{% endblock %}
+
+{% block breadcrumbs %}
+<li>/ <a href="{% url 'index' %}">CBS</a></li>
+<li>/ Comment: {{ comment.user_name }} on {{ comment.timestamp|date:"D d M Y H:i" }}</li>
+{% endblock %}
+
+{% block subject_title %}
+    {{ comment.crate.name }}
+ {% endblock %}
+ 
+{% block content %}
+
+{% include "bookings/comment_summary.html" %}
+
+{% endblock %}
+ 

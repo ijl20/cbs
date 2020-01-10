@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}{{ target.name }} Calendars{% endblock %}
+
+{% block local_logo %}{% endblock %}
+
+{% block breadcrumbs %}
+<li>/ <a href="{% url 'index' %}">UIS Room Calendars</a></li>
+<li>/ Details: {{ target.name }}</li>
+{% endblock %}
+
+{% block subject_title %}
+    {{ target.name }}
+ {% endblock %}
+ 
+{% block content %}
+
+<!-- Tabs -->
+<div id="tabs">
+	<ul>
+		<li><a href="#crates">Resources</a></li>
+		<li><a href="#details">Details</a></li>
+		<li><a href="#comments">Comments</a></li>
+		<li><a href="#bookings">Bookings</a></li>
+		<li class="newpage"><a href="{% url 'inst_stats' target.instid %}">Usage Stats</a></li>
+	</ul>
+	<div id="details">
+        <p>instid: {{ target.instid }}</p>
+        <p>name: {{ target.name }}</p>
+        <p>parent insts:
+        <ul>
+        {% for inst in target.parentInsts %}
+            <li><a href="{% url 'inst' inst.instid %}">{{ inst.name }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div id="crates">
+        <ul>
+        {% for crate in crates %}
+            <li><a href="{% url 'crate' crate.id %}">{{ crate.name }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div id="comments">
+        <ul>
+        {% for crate_comments in comments %}
+            {% if crate_comments %}
+            <li><a href="{% url 'crate' crate_comments.0.crate.id %}">
+                {{ crate_comments.0.crate.name }}</a>
+                <ul>
+                    {% for comment in crate_comments %}
+                    <li>{% include "bookings/comment_summary.html" %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    </div>
+    <div id="bookings">
+        <ul>
+        {% for crate_bookings in bookings %}
+            {% if crate_bookings %}
+            <li><a href="{% url 'crate' crate_bookings.0.crate.id %}">
+                {{ crate_bookings.0.crate.name }}</a>
+                <ul>
+                    {% for booking in crate_bookings %}
+                    <li>{% include "bookings/booking_summary.html" %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    </div>
+</div> <!-- end of Tabs -->
+
+
+{% endblock %}
+ 
