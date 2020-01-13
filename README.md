@@ -10,7 +10,7 @@ It is clear that talented technology people have little influence in the room bo
 software sales in the space are targeted at business administrators rather than building users.
 
 As a "room booking" system the CBS demoonstrator has capabilities unlikely
-to be found in other generally available systems but they ar worth recording here:
+to be found in other generally available systems but they are worth recording here:
 
 (1) GENERALIZATION OF BOOKABLE ASSETS: The bookable assets are in a general hierarchy and there is nothing special about a 
 room / building / site, i.e. the system is equally usable for equipment. Bookings are possible at all 
