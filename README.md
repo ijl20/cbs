@@ -1,8 +1,16 @@
 # Cambridge Booking System
 
-This demonstrator system was built (by me) in 2013 as a practical illustration of what a room-booking system 
-fit-for-purpose for the Collegiate University. As a "room booking" system it has capabilities the UIS is unlikely 
-to achieve but they're worth capturing:
+This demonstrator system was built in 2013 as a practical illustration of what a room-booking system 
+fit-for-purpose for the Collegiate University might look like. 
+
+The objective was to consider a progressive "talks.cam" approach for room bookings with some
+administrative capabilities federated to people more typically dismissed as "end users".
+
+It is clear that talented technology people have little influence in the room booking industry and 
+software sales in the space are targeted at business administrators rather than building users.
+
+As a "room booking" system the CBS demoonstrator has capabilities unlikely
+to be found in other generally available systems but they ar worth recording here:
 
 (1) GENERALIZATION OF BOOKABLE ASSETS: The bookable assets are in a general hierarchy and there is nothing special about a 
 room / building / site, i.e. the system is equally usable for equipment. Bookings are possible at all 
@@ -33,23 +41,28 @@ the asset bookings and much of the Google Calendar functionality benefits users 
 For effective support, each asset has two Google calendars - one for confirmed bookings and another for 
 requested bookings - these are typically displayed overlayed in different colours and are easy to interpret.
 
-(5) ATTRIBUTE LIST: A few asset attributes are standardised (like identifier, name, description, image, 
-location) but the list of attributes is generalised, so a room may have a seating capacity and projector 
-while equipment might have a wattage. I would expect these attributes (and the calendar bookings) provide 
-a good basis for a search capability which was not implemented in the prototype.
+(5) ASSET ATTRIBUTES: A few asset attributes are standardised (like identifier, name, description, image, 
+location) but the list of attributes is generalised, so a room may have a seating capacity plus wifi and
+a projector while equipment might have a wattage. I would expect these attributes (and the calendar bookings) 
+provide a good basis for a search capability (which was not implemented in the demonstrator).
+
+(6) USAGE TRACKING: The demonstrator assumes a range of roles from super-user to adminstrators of assets to
+approvers, bookers, requesters, and viewers of assets. Usage statistics are routinely recorded such that 
+system-wide monthly active users, or bookings per asset, or assets being added to the system can be graphed
+and displayed.
 
 ## Common misunderstandings
 
 There are a few misunderstandings I learned during the brief period of this demonstrator development
 and its subsequent use in the UIS which are certain to be repeated and worth recording:
 
-(6) Estates colleagues focus almost entirely on the linear list of attributes that can be associated 
-with a room, rather than the features of the platform that make it usable from a department, college or 
-individual perspective. I.e. they were impressed that the demonstrator can include one or more images 
+(A) Building Management colleagues focus almost entirely on the list of attributes that can be associated 
+with a room, rather than the features of the platform that make it usable from a department, College or 
+individual perspective. I.e. with the demonstrator they were impressed that it can include one or more images 
 of the room, and a reference presented on a map, and asked if additional attributes could be added like 
 he cleaning schedule and what was in the room.
 
-(7) Colleagues with administrative responsibility typically have a strong belief that everything to do 
+(B) Colleagues with administrative responsibility typically have a strong belief that everything to do 
 with bookable assets should have a human approval in the loop. The permissive approach in my demonstrator 
 allows ALL levels of permission from completely central administration through to individual management of 
 assets and in every case an administrator would suggest the appropriate configuration of every asset was 
@@ -59,21 +72,26 @@ users should be able to add assets to the system without administrative interven
 school or university can decide the appropriate 'ownership' of a meeting room or lecture theatre and not 
 constrain the entire system with a manual administrative process of adding assets.
 
-(8) 'Search' is given undue precedence in booking systems. It's a useful feature but very secondary to 
+(C) 'Search' is given undue precedence in booking systems. It's a useful feature but very secondary to 
 browsing a calendar showing the bookings of an asset you might already know you are interested in. I would 
 express caution when hearing arguments that it might be a valuable use-case that people search an entire 
 campus or city for a room rather than within the building in which they work - there is little evidence this 
 would be common practice even if available.
 
-(9) As an adjunct to (8), the 'calendar view' of asset bookings is underestimated with system developers 
+(D) As an adjunct to (8), the 'calendar view' of asset bookings is underestimated with system developers 
 commonly believing an in-application calendar is going to be adequate for end-user access and departmental 
 integration. It has become very unlikely that the limited resources applied to calendars developed *within* 
 room booking software can compete with the cloud solutions provided by Google and Microsoft and the in-system 
 approach for calendars is naive.
 
-(10) In the 'permissions model', adding an asset to the system is often assumed to require explicitly assigned 
+(E) In the 'permissions model', adding an asset to the system is often assumed to require explicitly assigned 
 permission from a central administrator to the individual concerned. As long as assets cannot be added 
 anonymously this is a flawed assumption.
+
+(F) In demonstrating the demonstrator, there was widespread acceptance of the value in features (1) through (6) 
+as if the inclusion of those features in any booking system was *easy*. The reality is *all* generally available 
+room booking systems collapse to a centralised administrative model with *two* roles - "administrator" 
+and "user" with the latter having neglible administrative authority while representing 99.9% of the organization.
 
 # Install notes
 
