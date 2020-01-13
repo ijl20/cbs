@@ -77,9 +77,7 @@ anonymously this is a flawed assumption.
 
 # Install notes
 
-=========================================================================
-APACHE2:
-=======
+## APACHE2:
 
 1) Install mod_wsgi
 
@@ -87,9 +85,7 @@ APACHE2:
 2.1) Copy required directives into vhosts/<hostmame>.conf file
 2.2) Adjust directory names as appropriate
 
-=========================================================================
-PYTHON:
-=======
+## PYTHON:
 
 1) Install python 2.X
 
@@ -103,9 +99,7 @@ PYTHON:
 * python-python-gflags
 
 
-=========================================================================
-CBS:
-=======
+## CBS:
 
 1) copy cbs directory
 
@@ -133,12 +127,10 @@ CBS:
 
 7.1) point browser to <hostname>:8080
 
-TO RESTART WEB SERVER:
-======================
+## TO RESTART WEB SERVER:
 
 sudo /usr/sbin/crm resource restart res_www_server
 
-TO RUN PYTHON COMMANDS AGAINST DATABASE:
-========================================
+## TO RUN PYTHON COMMANDS AGAINST DATABASE:
 
 python manage.py shell
